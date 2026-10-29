@@ -1,0 +1,21 @@
+{
+  "name": "shop-mfe",
+  "private": true,
+  "workspaces": ["apps/*", "services/*", "packages/*"],
+  "scripts": {
+    "infra:up": "docker compose -f infra/docker-compose.yml up -d",
+    "seed": "node infra/seed/init-schemas.mjs && node infra/seed/seed.mjs",
+    "api:catalog": "npm -w services/catalog-api run dev",
+    "api:cart": "npm -w services/cart-api run dev",
+    "api:content": "npm -w services/content-api run dev",
+    "web:shell": "npm -w apps/shell run dev",
+    "web:home": "npm -w apps/home run dev",
+    "web:catalog": "npm -w apps/catalog run dev",
+    "web:cart": "npm -w apps/cart run dev",
+    "dev:api": "concurrently npm:api:catalog npm:api:cart npm:api:content",
+    "dev:web": "concurrently npm:web:shell npm:web:home npm:web:catalog npm:web:cart",
+    "build": "npm -w apps/shell -w apps/home -w apps/catalog -w apps/cart run build"
+  },
+  "dependencies": { "mongodb": "^6.8.0" },
+  "devDependencies": { "concurrently": "^9.0.0" }
+}
